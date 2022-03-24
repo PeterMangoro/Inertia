@@ -100,7 +100,7 @@ class ProductController extends Controller
         $request->validate([
             'title'=>'required|string',
             'detail'=>'required|string',
-            'image'=> 'required|image|mimes:png,jpg,jpeg,gif,svg|max:6144'  //3mb
+            // 'image'=> 'required|image|mimes:png,jpg,jpeg,gif,svg|max:6144'  //3mb
         ]);
         if ($request->hasFile('image')){
             foreach($request->file('image') as $image)
@@ -111,7 +111,7 @@ class ProductController extends Controller
          
         }
        
-        $product->image=json_encode($data);
+        // $product->image=json_encode($data);
         $product->title=$request->title;
         $product->detail=$request->detail;
         $product->price=$request->price;

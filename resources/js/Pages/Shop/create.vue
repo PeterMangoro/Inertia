@@ -11,7 +11,7 @@
         <jet-form-section @submitted="createProduct">
           <template #title> Create Product </template>
 
-          <template #description> Creat your product here. </template>
+          <template #description> Create your product here. </template>
 
           <template #form>
             <!-- Title -->
@@ -41,17 +41,18 @@
             </div>
 
             <!-- Image -->
-            <!-- <div class="col-span-6 sm:col-span-4">
-              <jet-label for="image" value="Image" />
-              <jet-input
+            <div class="col-span-6 sm:col-span-4">
+              <jet-label for="image"    value="Image" />
+              <input
                 id="image"
                 type="file"
                 class="block w-full mt-1"
-                v-model="form.image"
-                autocomplete="image"
+             
+            
+                
               />
               <jet-input-error :message="form.errors.image" class="mt-2" />
-            </div> -->
+            </div>
             
             
 
@@ -117,7 +118,7 @@ export default {
       title: "",
       detail: "",
       price:"",
-      // image:"",
+      image:"",
     });
 
     const createProduct = () => {
