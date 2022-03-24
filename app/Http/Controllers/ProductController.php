@@ -100,6 +100,7 @@ class ProductController extends Controller
         $request->validate([
             'title'=>'required|string',
             'detail'=>'required|string',
+            'price'=>'required|string',
             // 'image'=> 'required|image|mimes:png,jpg,jpeg,gif,svg|max:6144'  //3mb
         ]);
         if ($request->hasFile('image')){
@@ -115,10 +116,11 @@ class ProductController extends Controller
         $product->title=$request->title;
         $product->detail=$request->detail;
         $product->price=$request->price;
+        // dd($product);
         $product->update();
 
-        return Redirect::route('products.edit');
-        return with('success','Product Updated successfully');
+        // return Redirect::route('products.edit',$product.id);
+        return back()-> with('success','Product Updated successfully');
 
     }
 

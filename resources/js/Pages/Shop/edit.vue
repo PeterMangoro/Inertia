@@ -110,7 +110,7 @@ export default {
     });
 
     const updateProduct = () => {
-      this.form.post(route("products.update"), {
+      form.post(route("products.update", props.product.id), {
         preserveScroll: true,
       });
     };

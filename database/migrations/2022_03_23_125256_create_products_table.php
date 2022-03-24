@@ -17,7 +17,7 @@ return new class extends Migration
             $table->id();
             $table->string('title');
             $table->string('image')->nullable();
-            $table->integer('price');
+            $table->float('price');
             // $table->foreignId('user_id')->constrained('users');
             $table->string('detail');
             $table->softDeletes();

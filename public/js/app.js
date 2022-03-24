@@ -23854,8 +23854,6 @@ __webpack_require__.r(__webpack_exports__);
     product: Object
   },
   setup: function setup(props) {
-    var _this = this;
-
     var form = (0,_inertiajs_inertia_vue3__WEBPACK_IMPORTED_MODULE_0__.useForm)({
       _method: "PUT",
       title: props.product.title,
@@ -23864,7 +23862,7 @@ __webpack_require__.r(__webpack_exports__);
     });
 
     var updateProduct = function updateProduct() {
-      _this.form.post(route("products.update"), {
+      form.post(route("products.update", props.product.id), {
         preserveScroll: true
       });
     };
