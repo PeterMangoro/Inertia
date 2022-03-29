@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
@@ -32,7 +33,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
        
         return Inertia::render('Admin/Index');
     })->name('index');
-
+    Route::resource('/users', UsersController::class);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {
