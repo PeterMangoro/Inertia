@@ -14,7 +14,7 @@
               :href="route('admin.users.create')"
               class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-800"
             >
-              Create Tag
+              Create User Disabled
             </Link>
           </div>
 

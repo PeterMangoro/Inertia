@@ -88,7 +88,7 @@
       </Link>
       <Link
         class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
-        
+        :href="route('admin.products.index')"
       >
         <svg
           class="w-6 h-6"
@@ -105,7 +105,7 @@
           />
         </svg>
 
-        <span class="mx-3">Movies</span>
+        <span class="mx-3">Products</span>
       </Link>
       <Link
         class="flex items-center px-6 py-2 mt-4 text-gray-500 hover:bg-gray-700 hover:bg-opacity-25 hover:text-gray-100"
