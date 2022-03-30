@@ -3,20 +3,21 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Product;
+use App\Models\Blog;
+use App\Models\User;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
+use Illuminate\Support\Facades\Session;
 use Inertia\Inertia;
-use Illuminate\Support\Str;
 
-class ProductsController extends Controller
+class BlogsController extends Controller
 {
     public function index()
     {
-        $perPage = Request::input('perPage') ?: 5;
+        $perPage = Request::input('perPage') ?: 15;
 
-        return Inertia::render('Products/Index', [
-            'products' => Product::query()
+        return Inertia::render('Blogs/Index', [
+            'blogs' => Blog::query()
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('title', 'like', "%{$search}%");
                 })->when(Request::has('column'), function($query){
@@ -30,47 +31,47 @@ class ProductsController extends Controller
 
     public function create()
     {
-        return Inertia::render('Products/Create');
+        return Inertia::render('Blogs/Create');
     }
 
     public function store()
     {
-        Product::create([
-            'title' => Request::input('productTitle'),
+        Blog::create([
+            'title' => Request::input('blogTitle'),
             'image' => "https://tailwindui.com/img/ecommerce-images/category-page-04-image-card-01.jpg",
-            'price' => Request::input('productPrice'),
-            'detail' => Request::input('productDetail'),
-            
+             'author' => Request::input('blogAuthor'),
+            'detail' => Request::input('blogDetail'),
+            'is_public' => false,
         ]);
 
-        return Redirect::route('admin.products.index')->with('flash.banner', 'Tag Created.');
+        return Redirect::route('admin.blogs.index')->with('flash.banner', 'Tag Created.');
 
     }
 
-    public function edit(Product $product)
+    public function edit(Blog $blog)
     {
-       return Inertia::render('Products/Edit', ['product' => $product]);
+       return Inertia::render('Blogs/Edit', ['blog' => $blog]);
     }
 
-    public function update(Product $product)
+    public function update(Blog $blog)
     {
         $validated = Request::validate([
             'title' => 'required',
             'image' => 'required',
-            'price' => 'required',
+            
             'detail' => 'required',
+            'is_public' => 'required'
            
         ]);
 
-        $product->update($validated);
-        return Redirect::route('admin.products.index')->with('flash.banner', 'Product Updated.');
+        $blog->update($validated);
+        return Redirect::route('admin.blogs.index')->with('flash.banner', 'Blog Updated.');
     }
 
-    public function destroy(Product $product)
+    public function destroy(Blog $blog)
     {
         
-        $product->delete();
-        return Redirect::route('admin.products.index')->with('flash.banner', 'Product Deleted.')->with('flash.bannerStyle', 'danger');
+        $blog->delete();
+        return Redirect::route('admin.blogs.index')->with('flash.banner', 'Blog Deleted.')->with('flash.bannerStyle', 'danger');
     }
 }
-

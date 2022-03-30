@@ -1,20 +1,16 @@
 <template>
   <admin-layout title="Dashboard">
-    <template #header>
-      <h2 class="text-xl font-semibold leading-tight text-gray-800">
-        Products Index
-      </h2>
-    </template>
+    <template #header> Authors Index </template>
 
     <div class="py-2">
       <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <section class="container p-6 mx-auto font-mono">
           <div class="flex justify-end w-full p-2 mb-4">
-            <Link
-              :href="route('admin.products.create')"
+           <Link
+              :href="route('admin.blogs.create')"
               class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-800"
             >
-              Create Product 
+              Create Blog 
             </Link>
           </div>
 
@@ -39,7 +35,7 @@
                     </div>
 
                     <input
-                      v-model="productFilters.search"
+                      v-model="blogFilters.search"
                       type="text"
                       placeholder="Search by title"
                       class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md md:w-2/6 focus:border-gray-500 focus:bg-white focus:ring-0"
@@ -48,8 +44,8 @@
                 </div>
                 <div class="flex">
                   <select
-                   v-model="productFilters.perPage"
-                   @change="productFilters.perPage === $event.target.value"
+                    v-model="blogFilters.perPage"
+                    @change="blogFilters.perPage === $event.target.value"
                     class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0"
                   >
                     <option value="5">5 Per Page</option>
@@ -61,60 +57,15 @@
             </div>
 
             <div class="w-full overflow-x-auto">
-              <table class="w-full">
-                <thead>
-                  <tr
-                    class="font-semibold tracking-wide text-left text-gray-900 uppercase bg-gray-100 border-b border-gray-600 text-md"
-                  >
-                    <th class="px-4 py-3 cursor-pointer" @click="sort('id')">
-                      <div class="flex content-center space-x-4">
-                      <span>ID</span>
-                      <svg
-                        v-if="
-                          productFilters.column == 'id' &&
-                          productFilters.direction == 'desc'
-                        "
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-indigo-700"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M17 13l-5 5m0 0l-5-5m5 5V6"
-                        />
-                      </svg>
-                      <svg
-                        v-if="
-                          productFilters.column == 'id' &&
-                          productFilters.direction == 'asc'
-                        "
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5 text-indigo-700"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M7 11l5-5m0 0l5 5m-5-5v12"
-                        />
-                      </svg>
-                      </div>
-                    </th>
-                    
-                    <th class="px-4 py-3 cursor-pointer"  @click="sort('title')">
-                      <div class="flex content-center space-x-4">
+              <Table>
+                <template #tableHead>
+                  <TableHead class="cursor-pointer" @click="sort('title')">
+                    <div class="flex content-center space-x-4">
                       <span>Title</span>
                       <svg
                         v-if="
-                          productFilters.column == 'title' &&
-                          productFilters.direction == 'desc'
+                          blogFilters.column == 'title' &&
+                          blogFilters.direction == 'desc'
                         "
                         xmlns="http://www.w3.org/2000/svg"
                         class="w-5 h-5 text-indigo-700"
@@ -131,8 +82,8 @@
                       </svg>
                       <svg
                         v-if="
-                          productFilters.column == 'title' &&
-                          productFilters.direction == 'asc'
+                          blogFilters.column == 'title' &&
+                          blogFilters.direction == 'asc'
                         "
                         xmlns="http://www.w3.org/2000/svg"
                         class="w-5 h-5 text-indigo-700"
@@ -147,16 +98,15 @@
                           d="M7 11l5-5m0 0l5 5m-5-5v12"
                         />
                       </svg>
-                      </div>
-                    
-                      </th>
-                     <th class="px-4 py-3 cursor-pointer" @click="sort('price')"> 
-                       <div class="flex content-center space-x-4">
-                       <span>Price</span>
-                       <svg
+                    </div>
+                  </TableHead>
+                  <TableHead class="cursor-pointer" @click="sort('author')">
+                    <div class="flex content-center space-x-4">
+                      <span>Author</span>
+                      <svg
                         v-if="
-                          productFilters.column == 'price' &&
-                          productFilters.direction == 'desc'
+                          blogFilters.column == 'author' &&
+                          blogFilters.direction == 'desc'
                         "
                         xmlns="http://www.w3.org/2000/svg"
                         class="w-5 h-5 text-indigo-700"
@@ -173,8 +123,8 @@
                       </svg>
                       <svg
                         v-if="
-                          productFilters.column == 'price' &&
-                          productFilters.direction == 'asc'
+                          blogFilters.column == 'author' &&
+                          blogFilters.direction == 'asc'
                         "
                         xmlns="http://www.w3.org/2000/svg"
                         class="w-5 h-5 text-indigo-700"
@@ -189,56 +139,61 @@
                           d="M7 11l5-5m0 0l5 5m-5-5v12"
                         />
                       </svg>
-                       </div>
-                       </th>
-                    
-                     <th class="px-4 py-3 ">Image</th>
-                     <th class="px-4 py-3 ">Detail</th>
-                    <th class="px-4 py-3 ">Manage</th>
-                  </tr>
-                </thead>
-                <tbody class="bg-white">
-                  <tr
-                    v-for="product in products.data"
-                    :key="product.id"
-                    class="text-gray-700"
-                  >
-                    <td class="px-4 py-3 border">{{ product.id }}</td>
-                   
-                    <td class="px-4 py-3 font-semibold border text-ms">
-                      {{ product.title }}
-                    </td>
-
-                     <td class="px-4 py-3 font-semibold border text-ms">
-                      ${{ product.price }}
-                    </td>
-
-                     <td class="px-4 py-3 border"><img
+                    </div>
+                  </TableHead>
+                  <!-- <TableHead @click="sort('visits')"> Visits </TableHead> -->
+                  <TableHead>Poster</TableHead>
+                  <TableHead>Detail</TableHead>
+                  <TableHead>Public</TableHead>
+                  <TableHead>Manage</TableHead>
+                </template>
+                <TableRow v-for="blog in blogs.data" :key="blog.id">
+                  <TableData>{{ blog.title }}</TableData>
+                  <TableData>{{ blog.author }}</TableData>
+                  <!-- <TableData>{{ blog.visits }}</TableData> -->
+                  <TableData>
+                    <img
                       class="w-12 h-12 rounded"
-                      :src="product.image"
-                    /></td>
-
-                      <td class="px-4 py-3 border">{{ product.detail }}</td>
-
-                    <td class="px-4 py-3 text-sm border">
-                      <div class="flex justify-around">
-                        
-                        <Link
-                          :href="route('admin.products.destroy', product.id)"
-                          method="delete"
-                          as="button"
-                          type="button"
-                          class="px-4 py-2 text-white bg-red-500 rounded-lg hover:bg-red-700"
-                        >
-                          Delete
-                        </Link>
-                      </div>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
+                      :src="`${blog.image}`"
+                    />
+                  </TableData>
+                   <TableData>{{ blog.detail }}</TableData>
+                  <TableData>
+                    <span
+                      v-if="blog.is_public"
+                      class="inline-flex px-2 text-xs font-semibold leading-5 text-green-800 bg-green-100 rounded-full "
+                    >
+                      Published
+                    </span>
+                    <span
+                      v-else
+                      class="inline-flex px-2 text-xs font-semibold leading-5 text-red-800 bg-red-100 rounded-full "
+                    >
+                      UnPublished
+                    </span>
+                  </TableData>
+                  <TableData>
+                    <div class="flex space-x-2">
+                      <!-- <ButtonLink :link="route('admin.blogs.attach', blog.id)"
+                        >Attach</ButtonLink
+                      > -->
+                      <ButtonLink :link="route('admin.blogs.edit', blog.id)"
+                        >Edit</ButtonLink
+                      >
+                      <ButtonLink
+                        class="bg-red-500 hover:bg-red-700"
+                        :link="route('admin.blogs.destroy', blog.id)"
+                        method="delete"
+                        as="button"
+                        type="button"
+                        >Delete</ButtonLink
+                      >
+                    </div>
+                  </TableData>
+                </TableRow>
+              </Table>
               <div class="p-2 m-2">
-<Pagination :links="products.links" />
+                <Pagination :links="blogs.links" />
               </div>
             </div>
           </div>
@@ -249,34 +204,36 @@
 </template>
 
 <script setup>
-import AdminLayout from "../../Layouts/AdminLayout.vue";
+import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/inertia-vue3";
-import Pagination from "../../Components/Pagination.vue"
-import { ref, watch, defineProps,reactive } from "vue";
+import Pagination from "@/Components/Pagination.vue";
+import { ref, reactive, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
+import Table from "@/Components/Table";
+import TableData from "@/Components/TableData";
+import TableHead from "@/Components/TableHead";
+import TableRow from "@/Components/TableRow";
+import ButtonLink from "@/Components/ButtonLink";
 import { throttle, pickBy } from "lodash";
 
-
 const props = defineProps({
-  products: Object,
+  blogs: Object,
   filters: Object,
 });
 
-
-const productFilters = reactive({
+const blogFilters = reactive({
   search: props.filters.search,
   perPage: props.filters.perPage,
   column: props.filters.column,
   direction: props.filters.direction,
 });
 
-
 watch(
-  productFilters,
+  blogFilters,
   throttle(() => {
-    let query = pickBy(productFilters);
+    let query = pickBy(blogFilters);
     let queryRoute = route(
-      "admin.products.index",
+      "admin.blogs.index",
       Object.keys(query).length
         ? query
         : {
@@ -297,13 +254,10 @@ watch(
   }
 );
 
-
 function sort(column) {
-  productFilters.column = column;
-  productFilters.direction = productFilters.direction === "asc" ? "desc" : "asc";
+  blogFilters.column = column;
+  blogFilters.direction = blogFilters.direction === "asc" ? "desc" : "asc";
 }
 
-</script>
-<style   >
 
-</style>
+</script>
