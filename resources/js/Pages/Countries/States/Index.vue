@@ -1,16 +1,16 @@
 <template>
   <admin-layout title="Dashboard">
-    <template #header> Countries </template>
+    <template #header> Provinces or States </template>
 
     <div class="py-2">
       <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <section class="container p-6 mx-auto font-mono">
           <div class="flex justify-end w-full p-2 mb-4">
             <Link
-              :href="route('admin.countries.create')"
+              
               class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-800"
             >
-              Create Country 
+              Create Province 
             </Link>
           </div>
 
@@ -37,7 +37,7 @@
                     <input
                       v-model="search"
                       type="text"
-                      placeholder="Search by name"
+                      placeholder="Search by title"
                       class="w-full px-8 py-3 text-sm bg-gray-100 border-transparent rounded-md md:w-2/6 focus:border-gray-500 focus:bg-white focus:ring-0"
                     />
                   </div>
@@ -45,7 +45,7 @@
                 <div class="flex">
                   <select
                     v-model="perPage"
-                    @change="getCountries"
+                    @change="getStates"
                     class="w-full px-4 py-3 text-sm bg-gray-100 border-transparent rounded-md focus:border-gray-500 focus:bg-white focus:ring-0"
                   >
                     <option value="5">5 Per Page</option>
@@ -60,28 +60,35 @@
               <Table>
                 <template #tableHead>
                   <TableHead>Name</TableHead>
-                  <TableHead>Capital</TableHead>
-                  <TableHead>Code</TableHead>
+                  <TableHead>Country code</TableHead>
+                  
                   <TableHead>Manage</TableHead>
                 </template>
-                <TableRow v-for="country in countries.data" :key="country.id">
-                  <TableData>{{ country.name }}</TableData>
-                  <TableData>{{ country.capital }}</TableData>
-                  <TableData>{{ country.phonecode }}</TableData>
+                <TableRow v-for="state in states.data" :key="state.id">
+                  <TableData>{{ state.name }}</TableData>
+                  <TableData>{{ state.country_code }}</TableData>
+                 
                   <TableData>
                     <div class="flex justify-around">
                       <ButtonLink
                         class="bg-blue-500 hover:bg-blue-700"
-                       :link="route('admin.states.index', country.id)"
-                        >Provinces</ButtonLink
+                       :link="
+                          route('admin.cities.index', [country.id, state.id])
+                        "
+                        
+                        >Cities</ButtonLink
                       >
                       <ButtonLink
-                        :link="route('admin.countries.edit', country.id)"
+                        :link="
+                          route('admin.states.edit', [country.id, state.id])
+                        "
                         >Edit</ButtonLink
                       >
                       <ButtonLink
                         class="bg-red-500 hover:bg-red-700"
-                        :link="route('admin.countries.destroy', country.id)"
+                        :link="
+                          route('admin.states.destroy', [country.id, state.id])
+                        "
                         method="delete"
                         as="button"
                         type="button"
@@ -92,7 +99,7 @@
                 </TableRow>
               </Table>
               <div class="p-2 m-2">
-                <Pagination :links="countries.links" />
+                <Pagination :links="states.links" />
               </div>
             </div>
           </div>
@@ -106,7 +113,7 @@
 import AdminLayout from "@/Layouts/AdminLayout.vue";
 import { Link } from "@inertiajs/inertia-vue3";
 import Pagination from "@/Components/Pagination.vue";
-import { ref, watch, defineProps } from "vue";
+import { ref, watch } from "vue";
 import { Inertia } from "@inertiajs/inertia";
 import Table from "@/Components/Table";
 import TableData from "@/Components/TableData";
@@ -115,17 +122,18 @@ import TableRow from "@/Components/TableRow";
 import ButtonLink from "@/Components/ButtonLink";
 
 const props = defineProps({
-  countries: Object,
+  country: Object,
+  states: Object,
   filters: Object,
 });
 
 const search = ref(props.filters.search);
 const perPage = ref(props.filters.perPage);
-
+const stateNumber = ref("");
 
 watch(search, (value) => {
   Inertia.get(
-    "/admin/countries",
+    `/admin/countries/${props.country.id}/states`,
     { search: value, perPage: perPage.value },
     {
       preserveState: true,
@@ -134,9 +142,9 @@ watch(search, (value) => {
   );
 });
 
-function getCountries() {
+function getStates() {
   Inertia.get(
-    "/admin/countries",
+    `/admin/countries/${props.country.id}/states`,
     { perPage: perPage.value, search: search.value },
     {
       preserveState: true,

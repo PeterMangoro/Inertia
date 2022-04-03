@@ -16,12 +16,10 @@ class CountriesController extends Controller
             'countries' => Countries::query()
                 ->when(Request::input('search'), function ($query, $search) {
                     $query->where('name', 'like', "%{$search}%");
-                })->when(Request::has('column'), function($query){
-                    $query->orderBy(Request::input('column'), Request::input('direction'));
                 })
                 ->paginate($perPage)
                 ->withQueryString(),
-            'filters' => Request::only(['search', 'perPage', 'column', 'direction'])
+            'filters' => Request::only(['search', 'perPage'])
         ]);
 
         

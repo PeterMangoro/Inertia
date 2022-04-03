@@ -3,8 +3,10 @@
 use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\CitiesController;
 use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\StateController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
@@ -40,6 +42,8 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::resource('/products', ProductsController::class);
     Route::resource('/blogs', BlogsController::class);
     Route::resource('/countries', CountriesController::class);
+    Route::resource('/countries/{country}/states', StateController::class);
+    Route::resource('/countries/{country}/states/{state}/cities', CitiesController::class);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

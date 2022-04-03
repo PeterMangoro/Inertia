@@ -5,14 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Countries extends Model
+class State extends Model
 {
     use HasFactory;
-    
 
-    public function states()
+    public function cities()
     {
-        return $this->hasMany(State::class);
+        return $this->hasMany(Cities::class);
     }
 }
-
