@@ -3,6 +3,7 @@
 use App\Http\Controllers\Admin\BlogsController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
+use App\Http\Controllers\CountriesController;
 use App\Http\Controllers\ProductController;
 use App\Models\Product;
 use Illuminate\Foundation\Application;
@@ -38,6 +39,7 @@ Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->
     Route::resource('/users', UsersController::class);
     Route::resource('/products', ProductsController::class);
     Route::resource('/blogs', BlogsController::class);
+    Route::resource('/countries', CountriesController::class);
 });
 
 Route::middleware(['auth:sanctum', 'verified'])->get('/dashboard', function () {

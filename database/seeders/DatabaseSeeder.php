@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        // php artisan permission:create-role admin
         \App\Models\User::factory(10)->create();
         $user = User::create([ 'name' => 'Peter Mangoro', 'email' => 'peter@admin.com', 'password' => bcrypt('password'),  ]); $user->assignRole('admin');
     }
