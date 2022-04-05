@@ -5,12 +5,18 @@
     <div class="py-2">
       <div class="mx-auto max-w-7xl sm:px-6 lg:px-8">
         <section class="container p-6 mx-auto font-mono">
-          <div class="flex justify-end w-full p-2 mb-4">
-            <Link
-              
+          <div class="flex w-full p-2 mb-4">
+            <Link              
               class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-800"
             >
-              Create Province 
+              Add Province 
+            </Link>
+
+            <Link
+              :href="route('admin.countries.index')"
+              class="justify-end px-4 py-2 text-white bg-green-500 rounded-lg hover:bg-green-700"
+            >
+              Go Back to Country Index
             </Link>
           </div>
 

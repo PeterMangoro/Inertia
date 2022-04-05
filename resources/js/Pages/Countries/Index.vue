@@ -62,11 +62,13 @@
                   <TableHead>Name</TableHead>
                   <TableHead>Capital</TableHead>
                   <TableHead>Code</TableHead>
+                  <TableHead>Flag</TableHead>
                   <TableHead>Manage</TableHead>
                 </template>
                 <TableRow v-for="country in countries.data" :key="country.id">
                   <TableData>{{ country.name }}</TableData>
                   <TableData>{{ country.capital }}</TableData>
+                   <TableData>{{ country.emoji }}</TableData>
                   <TableData>{{ country.phonecode }}</TableData>
                   <TableData>
                     <div class="flex justify-around">

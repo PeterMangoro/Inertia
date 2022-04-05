@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Countries;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 
@@ -25,6 +26,25 @@ class CountriesController extends Controller
         
     }
 
+    public function store(Countries $country)
+    {
+         $country = Countries::where('name', Request::input('name'))->first();
+        if ($country) {
+            return Redirect::back()->with('flash.banner', 'Country already Exists.');
+        }
+
+        $validated = Request::validate([
+            'name'    => 'required',
+            'iso3' => 'required',
+            'phonecode' => 'required',
+            'capital' => 'required',
+            'currency' => 'required',
+        ]);
+          
+        $country->create($validated);
+        return Redirect::route('admin.countries.index')->with('flash.banner', 'Country added.');
+    }
+
     public function show($id)
     {
         $country=Countries::find($id);
@@ -37,10 +57,10 @@ class CountriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Countries $country)
     {
-        $country = Countries::find($id);
-        return Inertia::render('Shop/edit',compact('country'));
+        
+        return Inertia::render('Countries/Edit',compact('country'));
     }
 
     /**
@@ -50,35 +70,21 @@ class CountriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Countries $country)
     {
-        $country= Countries::find($id);
-        $request->validate([
-            'title'=>'required|string',
-            'detail'=>'required|string',
-            'price'=>'required|string',
-            // 'image'=> 'required|image|mimes:png,jpg,jpeg,gif,svg|max:6144'  //3mb
+        $validated = Request::validate([
+            'name'    => 'required',
+            'iso3' => 'required',
+            'phonecode' => 'required',
+            'capital' => 'required',
+            'currency' => 'required',
         ]);
-        if ($request->hasFile('image')){
-            foreach($request->file('image') as $image)
-            {
-                $image_path = $request->file('image')->store('shop','public');  
-                $data[] = $image_path;
-            }
-         
-        }
-       
-        // $country->image=json_encode($data);
-        $country->title=$request->title;
-        $country->detail=$request->detail;
-        $country->price=$request->price;
-        // dd($country);
-        $country->update();
 
-        // return Redirect::route('products.edit',$country.id);
-        return back()-> with('success','Countries Updated successfully');
-
+        $country->update($validated);
+        return Redirect::route('admin.countries.index')->with('flash.banner', 'Country updated.');
     }
+
+   
 
     /**
      * Remove the specified resource from storage.
@@ -86,11 +92,10 @@ class CountriesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Countries $country)
     {
-        $country = Countries::find($id);
         $country->delete();
-        return redirect()->back()->with('success','Countries deleted successfully');
+        return Redirect::route('admin.countries.index')->with('flash.banner', 'Countries deleted.')->with('flash.bannerStyle', 'danger');
     }
 
     /**
