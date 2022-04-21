@@ -35,6 +35,14 @@ class StateController extends Controller
         ]);
     }
 
+    public function create(Countries $country, State $state)
+    {
+        return Inertia::render('Countries/States/Add', [
+            'country' => $country, 
+            'state' => $state
+        ]);
+    }
+
     public function store(Countries $country)
     {
         $state = $country->states()->where('name', Request::input('name'))->exists();

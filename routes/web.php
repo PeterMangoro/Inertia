@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\BlogsController;
+use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\UsersController;
 use App\Http\Controllers\CitiesController;
@@ -34,10 +35,7 @@ Route::get('/', function () {
 });
 // Admin Routes
 Route::middleware(['auth:sanctum', 'verified', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', function () {
-       
-        return Inertia::render('Admin/Index');
-    })->name('index');
+    Route::resource('/',DashboardController::class);
     Route::resource('/users', UsersController::class);
     Route::resource('/products', ProductsController::class);
     Route::resource('/blogs', BlogsController::class);

@@ -8,6 +8,7 @@
           <div class="flex w-full p-2 mb-4">
             <Link              
               class="px-4 py-2 text-white bg-green-600 rounded-lg hover:bg-green-800"
+              :href="route('admin.states.create', country.id)"
             >
               Add Province 
             </Link>
